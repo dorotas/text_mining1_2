@@ -1,7 +1,12 @@
 __author__ = 'Dorota'
 
+from operator import itemgetter
+import heapq
+import collections
+
 def find_all_digrams(corps, set_of_nouns, set_of_genitives, dict_of_digrams):
     result = open("digrams_result.txt", 'w')
+    set_of_rare_nouns = least_common_values(set_of_nouns, 1000)
     for line in range(len(corps)) :
         for nr_elementu in range(len(corps[line])):
             word_last = corps[line][nr_elementu]
@@ -11,6 +16,7 @@ def find_all_digrams(corps, set_of_nouns, set_of_genitives, dict_of_digrams):
                     key = word_first + " " + word_last
                     common_bonus(key, dict_of_digrams)
                     is_genitive_bonus(key, set_of_genitives, dict_of_digrams)
+                    is_rare_bonus(key, set_of_rare_nouns, dict_of_digrams)
     for k in dict_of_digrams :
         result.write(k + ' ' + str(dict_of_digrams[k]) + '\n')
     result.close()
@@ -27,14 +33,17 @@ def is_genitive_bonus(digram, set_of_genitives, dict_of_digrams):
         dict_of_digrams[digram] += 3
 
 
-
-from operator import itemgetter
-import heapq
-import collections
 def least_common_values(array, to_find):
+    list_of_rare_nouns = []
     counter = collections.Counter(array)
     tuple = heapq.nsmallest(to_find, counter.items(), key=itemgetter(1))
     for k in tuple:
-        print k[0]
+        list_of_rare_nouns.append(k[0])
+        set_of_rare_nouns = set(list_of_rare_nouns)
+        return set_of_rare_nouns
 
-print least_common_values([1,1,1,1,1,2,2,2,2,3,3,3,4,4,4,5,5,5,6], 3)
+def is_rare_bonus(digram, set_of_rare, dict_of_digrams):
+    pair = digram.split(" ")
+    if pair[0] in set_of_rare and pair[1] in set_of_rare:
+        dict_of_digrams[digram] +=5
+
