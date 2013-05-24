@@ -6,7 +6,7 @@ import collections
 
 def find_all_digrams(corps, set_of_nouns, set_of_genitives, dict_of_digrams):
     result = open("digrams_result.txt", 'w')
-    set_of_rare_nouns = least_common_values(set_of_nouns, 1000)
+    set_of_rare_nouns = least_common_values(set_of_nouns, 5000)
     for line in range(len(corps)) :
         for nr_elementu in range(len(corps[line])):
             word_last = corps[line][nr_elementu]
@@ -17,8 +17,9 @@ def find_all_digrams(corps, set_of_nouns, set_of_genitives, dict_of_digrams):
                     common_bonus(key, dict_of_digrams)
                     is_genitive_bonus(key, set_of_genitives, dict_of_digrams)
                     is_rare_bonus(key, set_of_rare_nouns, dict_of_digrams)
-    for k in dict_of_digrams :
-        result.write(k + ' ' + str(dict_of_digrams[k]) + '\n')
+    for k in dict_of_digrams:
+        if dict_of_digrams[k] > 10:
+            result.write(k + ' ' + str(dict_of_digrams[k]) + '\n')
     result.close()
 
 def common_bonus(digram, dict_of_digrams):
@@ -45,5 +46,5 @@ def least_common_values(array, to_find):
 def is_rare_bonus(digram, set_of_rare, dict_of_digrams):
     pair = digram.split(" ")
     if pair[0] in set_of_rare and pair[1] in set_of_rare:
-        dict_of_digrams[digram] +=5
+        dict_of_digrams[digram] += 10
 

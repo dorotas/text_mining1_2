@@ -6,7 +6,7 @@ import funkcje_digramy
 class MyTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.set_of_gen = set(["wewa", "waki", "maki"])
+        self.set_of_gen = {"wewa", "waki", "maki"}
         self.dict_of_dig1 = {"wewa waki" : 3, "wawa. waw" : 2}
         self.dict_of_dig2 = {"wewa waki" : 3, "wawa. waw" : 2}
 
